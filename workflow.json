@@ -1,0 +1,255 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1881f985-93fd-44a9-aa08-27ba0b4285aa",
+      "name": "Telegram Trigger",
+      "webhookId": "c36db50b-4b6f-4ff0-882b-434bbd1cec76",
+      "credentials": {
+        "telegramApi": {
+          "id": "9a9khWbBWIX0H3bA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.message.text;\nconst parts = text.split(' ');\n\nconst name = parts[0];\nconst subname = parts[1];\nconst amount = parseFloat(parts[2]);\n\nconst interest = amount * 0.65;\nconst profit = interest / 2;\nconst total = amount + interest;\nconst pay = total / 11;\n\nreturn [{\n  json: {\n    name: name,\n    subname: subname,\n    amount: amount,\n    interest: interest,\n    profit: profit,\n    total: total,\n    weekly_payment: pay,\n    date: new Date().toLocaleDateString(\"es-MX\"),\n    hour: new Date().toLocaleTimeString(\"es-MX\")\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        0
+      ],
+      "id": "3a26494f-92b6-4b11-a57a-28fbb3d071b9",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UZgcTvtvWwLTWuLrqPd7NB6bjUKBRUvz7A5rE72w-bo",
+          "mode": "list",
+          "cachedResultName": "Prestamos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UZgcTvtvWwLTWuLrqPd7NB6bjUKBRUvz7A5rE72w-bo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UZgcTvtvWwLTWuLrqPd7NB6bjUKBRUvz7A5rE72w-bo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "amount": "={{ $json.amount }}",
+            "interest": "= {{ $json.interest }}",
+            "total": "={{ $json.total }}",
+            "weekly_payment": "={{ $json.weekly_payment }}",
+            "date": "={{ $json.date }}",
+            "hour": "={{ $json.hour }}",
+            "subname": "={{ $json.subname }}",
+            "profit": "={{ $json.profit }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subname",
+              "displayName": "subname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "interest",
+              "displayName": "interest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "profit",
+              "displayName": "profit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weekly_payment",
+              "displayName": "weekly_payment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "hour",
+              "displayName": "hour",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        336,
+        0
+      ],
+      "id": "97449f8b-85bd-4942-9060-50224b7c208e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8J3hgRHtKauxjZ4z",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=✅ Prestamo Registrado: {{ $json.name }} {{ $json.subname }}\n👉${{ $('Code in JavaScript').item.json.amount }}\n\n🏦Intereses: ${{ $json.interest }}\n💵Ganancia: ${{ $('Code in JavaScript').item.json.profit }}\n💰TOTAL: ${{ $('Code in JavaScript').item.json.total }}\n\n🗓️Fecha:{{ $json.date }}\n⏱️Hora:{{ $json.hour }}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        0
+      ],
+      "id": "5733b693-2220-430e-8b6b-1d6621c7790c",
+      "name": "Send a text message",
+      "webhookId": "a8d43842-9bf7-40c8-8f85-02aef078c84e",
+      "credentials": {
+        "telegramApi": {
+          "id": "9a9khWbBWIX0H3bA",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "726086e0-cb3a-46a2-a9dc-6637572829dd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e189374ce1761aa87bc2ea4ff7ef08e183716f26beef1cd6f02cb74d3242134b"
+  },
+  "nodeGroups": [],
+  "id": "HY6SrajmTuZMZ02R",
+  "tags": []
+}
